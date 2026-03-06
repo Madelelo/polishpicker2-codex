@@ -88,6 +88,55 @@ main.site-shell {
   font-weight: 600;
 }
 
+.card-grid {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.85rem;
+}
+
+.card-item {
+  border: 1px solid #f0dfe6;
+  border-radius: 0.8rem;
+  padding: 0.85rem;
+  background: #fff;
+}
+
+.card-item h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.card-item p {
+  margin: 0.25rem 0;
+}
+
+.status-pill {
+  display: inline-block;
+  margin: 0 0 0.75rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.status-ok {
+  background: #e6fbef;
+  border: 1px solid #9dd7b3;
+}
+
+.status-warn {
+  background: #fff4da;
+  border: 1px solid #e6c57c;
+}
+
+.status-error {
+  background: #ffe7e8;
+  border: 1px solid #e2a3a8;
+}
+
 @media (max-width: 680px) {
   .site-header .site-shell {
     flex-direction: column;
