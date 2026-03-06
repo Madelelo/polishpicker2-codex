@@ -4,6 +4,7 @@ export type RawPolish = {
   _id: string;
   name?: string | null;
   colorName?: string | null;
+  colorType?: string | null;
   brand?: string | null;
   finish?: string | null;
   polishType?: string | null;
@@ -39,9 +40,13 @@ const normalizeSlug = (slug: string | null | undefined, id: string): string => {
 export const mapPolishCard = (doc: RawPolish): PolishCard => ({
   id: doc._id,
   title: doc.name?.trim() || doc.colorName?.trim() || "Untitled polish",
+  colorName: doc.colorName?.trim() || doc.name?.trim() || "Unknown color",
+  color: doc.color?.trim() || null,
+  colorType: doc.colorType?.trim() || null,
   brand: doc.brand?.trim() || "Unknown brand",
   finish: doc.finish?.trim() || doc.polishType?.trim() || "Unspecified",
-  colorHex: doc.colorHex?.trim() || doc.color?.trim() || null,
+  polishType: doc.polishType?.trim() || null,
+  colorHex: doc.colorHex?.trim() || null,
   imageUrl: doc.imageUrl?.trim() || null,
   slug: normalizeSlug(doc.slug, doc._id)
 });

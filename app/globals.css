@@ -259,6 +259,141 @@ main.site-shell {
   font-size: 0.92rem;
 }
 
+.catalog-layout {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.catalog-filters {
+  border: 1px solid #efdce4;
+  border-radius: 0.9rem;
+  padding: 0.9rem;
+  background: #fffafc;
+}
+
+.catalog-filters h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+}
+
+.catalog-filter-grid {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.catalog-filter-grid label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.catalog-filter-grid select {
+  border: 1px solid #e7c8d5;
+  border-radius: 0.6rem;
+  padding: 0.45rem 0.55rem;
+  background: #fff;
+  font: inherit;
+}
+
+.catalog-filter-actions {
+  margin-top: 0.75rem;
+}
+
+.catalog-filter-actions button {
+  border: 1px solid #e4c3d0;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  background: #ffeaf2;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.catalog-filter-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.catalog-results__summary {
+  margin: 0.25rem 0 0;
+}
+
+.catalog-card {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.catalog-card__main-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem;
+}
+
+.catalog-card__text {
+  min-width: 0;
+  display: grid;
+  gap: 0.3rem;
+  flex: 1;
+}
+
+.catalog-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.catalog-card p {
+  margin: 0;
+}
+
+.catalog-card__eyebrow {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #7d4b63;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.catalog-card__finish-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.catalog-card__meta {
+  color: #5e5560;
+  font-size: 0.88rem;
+}
+
+.catalog-color-swatch {
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 999px;
+  border: 1px solid #cbbec5;
+  flex: 0 0 auto;
+}
+
+.catalog-color-swatch--empty {
+  background: transparent;
+  border-style: dashed;
+}
+
+.catalog-empty {
+  margin-top: 1rem;
+  border: 1px dashed #e5c5d3;
+  border-radius: 0.9rem;
+  min-height: 120px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 1rem;
+  color: #5f5a62;
+  background: #fff;
+}
+
 .picker-card--compact p {
   font-size: 0.8rem;
 }
