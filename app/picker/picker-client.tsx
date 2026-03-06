@@ -16,6 +16,7 @@ type SwipeStackProps<T> = {
   items: T[];
   getId: (item: T) => string;
   emptyMessage: string;
+  className?: string;
   onActiveChange?: (item: T | null) => void;
   renderCard: (item: T) => ReactNode;
 };
@@ -56,6 +57,7 @@ function SwipeStack<T>({
   items,
   getId,
   emptyMessage,
+  className,
   onActiveChange,
   renderCard
 }: SwipeStackProps<T>) {
@@ -65,19 +67,6 @@ function SwipeStack<T>({
   const count = items.length;
   const safeIndex = count > 0 ? ((index % count) + count) % count : 0;
   const activeItem = items[safeIndex] ?? null;
-
-  const peekItems = useMemo(() => {
-    if (count <= 1) {
-      return [];
-    }
-
-    const nextItems: T[] = [];
-    const peekCount = Math.min(2, count - 1);
-    for (let offset = 1; offset <= peekCount; offset += 1) {
-      nextItems.push(items[(safeIndex + offset) % count]);
-    }
-    return nextItems;
-  }, [count, items, safeIndex]);
 
   useEffect(() => {
     onActiveChange?.(activeItem);
@@ -130,7 +119,7 @@ function SwipeStack<T>({
   };
 
   return (
-    <section className="swipe-stack">
+    <section className={`swipe-stack ${className ?? ""}`.trim()}>
       <header className="swipe-stack__header">
         <h2>{title}</h2>
       </header>
@@ -146,16 +135,6 @@ function SwipeStack<T>({
           onKeyDown={handleKeyDown}
           aria-label={`${title} swipe cards`}
         >
-          {peekItems.map((item, idx) => (
-            <div
-              className="swipe-stack__peek"
-              key={getId(item)}
-              style={{
-                transform: `translateY(${(idx + 1) * 8}px) scale(${1 - (idx + 1) * 0.03})`
-              }}
-              aria-hidden
-            />
-          ))}
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={getId(activeItem)}
@@ -177,11 +156,21 @@ function SwipeStack<T>({
       )}
 
       <div className="swipe-stack__controls">
-        <button type="button" onClick={() => move(-1)} disabled={!canMove}>
-          Prev
+        <button
+          type="button"
+          onClick={() => move(-1)}
+          disabled={!canMove}
+          aria-label="Previous card"
+        >
+          {"<"}
         </button>
-        <button type="button" onClick={() => move(1)} disabled={!canMove}>
-          Next
+        <button
+          type="button"
+          onClick={() => move(1)}
+          disabled={!canMove}
+          aria-label="Next card"
+        >
+          {">"}
         </button>
       </div>
     </section>
@@ -201,72 +190,78 @@ export function PickerClient({ polishes, nailArt }: PickerClientProps) {
   }, [activeNailArt]);
 
   return (
-    <div className="picker-grid">
-      <SwipeStack
-        title="Nail Art"
-        items={nailArt}
-        getId={(item) => item.id}
-        emptyMessage="No active nail-art ideas are available right now."
-        onActiveChange={setActiveNailArt}
-        renderCard={(item) => (
-          <article className="picker-card">
-            <p className="picker-card__eyebrow">Difficulty: {item.difficulty}</p>
-            <h3>{item.title}</h3>
-            {item.nailArtType ? (
-              <p className="picker-card__meta">Type: {item.nailArtType}</p>
-            ) : null}
-            <p>{item.description || "No description provided."}</p>
-            <p className="picker-card__meta">
-              Tools needed:{" "}
-              {item.toolsNeeded.length > 0 ? item.toolsNeeded.join(", ") : "None"}
-            </p>
-          </article>
-        )}
-      />
+    <div className="picker-stage">
+      <div className="picker-grid">
+        <SwipeStack
+          title="Nail Art"
+          items={nailArt}
+          getId={(item) => item.id}
+          emptyMessage="No active nail-art ideas are available right now."
+          className="swipe-stack--nail-art"
+          onActiveChange={setActiveNailArt}
+          renderCard={(item) => (
+            <article className="picker-card picker-card--nail-art">
+              <p className="picker-card__eyebrow">Difficulty: {item.difficulty}</p>
+              <h3>{item.title}</h3>
+              {item.nailArtType ? (
+                <p className="picker-card__meta">Type: {item.nailArtType}</p>
+              ) : null}
+              <p>{item.description || "No description provided."}</p>
+              <p className="picker-card__meta">
+                Tools needed:{" "}
+                {item.toolsNeeded.length > 0 ? item.toolsNeeded.join(", ") : "None"}
+              </p>
+            </article>
+          )}
+        />
 
-      <section className="picker-polish-panel">
-        <h2>Polish Picks</h2>
-        {requiredPolishTypes.length > 0 ? (
-          <div className="picker-polish-grid">
-            {requiredPolishTypes.map((requiredType, idx) => (
-              <SwipeStack
-                key={`${activeNailArt?.id ?? "none"}-${requiredType}-${idx}`}
-                title={`Polish ${idx + 1}: ${requiredType}`}
-                items={polishes.filter((item) =>
-                  matchesRequiredType(item.finish, requiredType)
-                )}
-                getId={(item) => item.id}
-                emptyMessage={`No active ${requiredType} polish found.`}
-                renderCard={(item) => (
-                  <article className="picker-card picker-card--compact">
-                    <p className="picker-card__eyebrow">{item.brand}</p>
-                    <h3>{item.title}</h3>
-                    <p>{item.finish}</p>
-                    {item.colorHex ? (
-                      <div className="picker-color">
-                        <span
-                          className="picker-color__swatch"
-                          style={{ backgroundColor: item.colorHex }}
-                          aria-hidden
-                        />
-                        <span>{item.colorHex}</span>
+        <section className="picker-polish-panel paper-doll-panel">
+          <h2>Polish Picks</h2>
+          {requiredPolishTypes.length > 0 ? (
+            <div className="picker-polish-grid">
+              {requiredPolishTypes.map((requiredType, idx) => (
+                <SwipeStack
+                  key={`${activeNailArt?.id ?? "none"}-${requiredType}-${idx}`}
+                  title={`Polish ${idx + 1}: ${requiredType}`}
+                  items={polishes.filter((item) =>
+                    matchesRequiredType(item.finish, requiredType)
+                  )}
+                  getId={(item) => item.id}
+                  emptyMessage={`No active ${requiredType} polish found.`}
+                  renderCard={(item) => (
+                    <article className="picker-card picker-card--compact picker-card--polish">
+                      <div className="picker-card__polish-info">
+                        <p className="picker-card__eyebrow">{item.brand}</p>
+                        <h3>{item.title}</h3>
+                        <p>{item.finish}</p>
                       </div>
-                    ) : null}
-                  </article>
-                )}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="swipe-stack__empty" role="status">
-            <p>
-              {activeNailArt
-                ? "This nail-art entry has no polish requirements set."
-                : "Select a nail-art card to load polish requirements."}
-            </p>
-          </div>
-        )}
-      </section>
+                      <div
+                        className={`picker-color-preview ${
+                          item.colorHex ? "" : "picker-color-preview--empty"
+                        }`}
+                        style={item.colorHex ? { backgroundColor: item.colorHex } : undefined}
+                        aria-label={
+                          item.colorHex
+                            ? `Color preview ${item.colorHex}`
+                            : "No color preview available"
+                        }
+                      />
+                    </article>
+                  )}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="swipe-stack__empty" role="status">
+              <p>
+                {activeNailArt
+                  ? "This nail-art entry has no polish requirements set."
+                  : "Select a nail-art card to load polish requirements."}
+              </p>
+            </div>
+          )}
+        </section>
+      </div>
     </div>
   );
 }

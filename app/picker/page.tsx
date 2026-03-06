@@ -8,11 +8,7 @@ export default async function PickerPage() {
 
   return (
     <section className="page picker-page">
-      <h1>Picker</h1>
-      <p>
-        Swipe on touch/trackpad, drag with mouse, or use arrow keys while a stack
-        is focused.
-      </p>
+      <h1>Polish picker</h1>
       {isEmpty ? (
         <div className="catalog-empty" role="status">
           <p>No nail-art or polish entries are available right now.</p>

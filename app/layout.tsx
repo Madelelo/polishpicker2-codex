@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { SiteNav } from "@/app/site-nav";
 import "./globals.css";
 
@@ -18,13 +17,15 @@ export default function RootLayout({
       <body>
         <header className="site-header">
           <div className="site-shell">
-            <Link className="brand" href="/">
-              PolishPicker
-            </Link>
-            <SiteNav />
+            <strong className="brand">Maddies nail polish closet</strong>
           </div>
         </header>
         <main className="site-shell">{children}</main>
+        <footer className="site-footer">
+          <div className="site-shell">
+            <SiteNav />
+          </div>
+        </footer>
       </body>
     </html>
   );
