@@ -1,30 +1,17 @@
-import { getNailArt } from "@/lib/sanity/queries";
+import { getNailArt, getPolishes } from "@/lib/sanity/queries";
+import { PickerClient } from "@/app/picker/picker-client";
 
 export default async function PickerPage() {
-  const nailArt = await getNailArt();
+  const [polishes, nailArt] = await Promise.all([getPolishes(), getNailArt()]);
 
   return (
-    <section className="page">
+    <section className="page picker-page">
       <h1>Picker</h1>
       <p>
-        {nailArt.length > 0
-          ? `Loaded ${nailArt.length} active nail-art ideas from Sanity.`
-          : "No active nail-art entries found. Add data in Sanity or set env vars."}
+        Swipe on touch/trackpad, drag with mouse, or use arrow keys while a stack
+        is focused.
       </p>
-      {nailArt.length > 0 ? (
-        <ul className="card-grid" aria-label="Nail art cards">
-          {nailArt.map((idea) => (
-            <li key={idea.id} className="card-item">
-              <article>
-                <h2>{idea.title}</h2>
-                <p>Difficulty: {idea.difficulty}</p>
-                <p>Tags: {idea.tags.length > 0 ? idea.tags.join(", ") : "None"}</p>
-                <p>Slug: {idea.slug}</p>
-              </article>
-            </li>
-          ))}
-        </ul>
-      ) : null}
+      <PickerClient polishes={polishes} nailArt={nailArt} />
     </section>
   );
 }
