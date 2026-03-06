@@ -22,22 +22,26 @@ export type SanityConnectionStatus =
 const POLISH_QUERY = groq`*[_type == "polish" && coalesce(active, true) == true] | order(lower(brand) asc, lower(name) asc) {
   _id,
   name,
-  colorName,
+  "colorName": coalesce(colorName, name, color),
+  color,
+  colorType,
   brand,
   finish,
-  polishType,
+  "polishType": coalesce(polishType->polishType, polishType->title, polishType, finish),
   "slug": slug.current,
-  color,
   "colorHex": coalesce(colorValue.hex, color.hex, colorHex),
   "imageUrl": coalesce(swatch.asset->url, image.asset->url)
 }`;
 
 const LEGACY_POLISH_QUERY = groq`*[_type == "nailpolish" && coalesce(active, true) == true] | order(lower(brand) asc, lower(colorName) asc) {
   _id,
-  colorName,
-  brand,
-  polishType,
+  "name": coalesce(name, colorName),
+  "colorName": coalesce(colorName, name, color),
   color,
+  colorType,
+  brand,
+  finish,
+  "polishType": coalesce(polishType->polishType, polishType->title, polishType, finish),
   "colorHex": colorValue.hex
 }`;
 
