@@ -20,8 +20,10 @@ type SwipeStackProps<T> = {
   renderCard: (item: T) => ReactNode;
 };
 
-const swipeThreshold = 90;
-const velocityThreshold = 500;
+const swipeThresholdDesktop = 90;
+const velocityThresholdDesktop = 500;
+const swipeThresholdMobile = 64;
+const velocityThresholdMobile = 360;
 
 const normalizeType = (value: string): string =>
   value.toLowerCase().replace(/[^a-z0-9]+/g, "");
@@ -108,6 +110,15 @@ function SwipeStack<T>({
     _: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo
   ) => {
+    const isMobileViewport =
+      typeof window !== "undefined" && window.matchMedia("(max-width: 680px)").matches;
+    const swipeThreshold = isMobileViewport
+      ? swipeThresholdMobile
+      : swipeThresholdDesktop;
+    const velocityThreshold = isMobileViewport
+      ? velocityThresholdMobile
+      : velocityThresholdDesktop;
+
     if (info.offset.x <= -swipeThreshold || info.velocity.x <= -velocityThreshold) {
       move(1);
       return;

@@ -138,84 +138,101 @@ export function CatalogClient({ polishes }: CatalogClientProps) {
 
   return (
     <div className="catalog-layout">
-      <section className="catalog-filters" aria-label="Catalog filters">
-        <h2>Filters</h2>
-        <div className="catalog-filter-grid">
-          <label>
-            Brand
-            <select
-              value={filters.brand}
-              onChange={(event) => updateFilter("brand", event.target.value)}
+      <form
+        className="catalog-filters"
+        aria-labelledby="catalog-filters-heading"
+        onSubmit={(event) => event.preventDefault()}
+      >
+        <fieldset>
+          <legend id="catalog-filters-heading">Filters</legend>
+          <div className="catalog-filter-grid">
+            <label>
+              Brand
+              <select
+                value={filters.brand}
+                onChange={(event) => updateFilter("brand", event.target.value)}
+              >
+                <option value={ALL}>Any brand</option>
+                {options.brands.map((option) => (
+                  <option key={option.key} value={option.key}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              Color
+              <select
+                value={filters.color}
+                onChange={(event) => updateFilter("color", event.target.value)}
+              >
+                <option value={ALL}>Any color</option>
+                {options.colors.map((option) => (
+                  <option key={option.key} value={option.key}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              Color Type
+              <select
+                value={filters.colorType}
+                onChange={(event) => updateFilter("colorType", event.target.value)}
+                disabled={options.colorTypes.length === 0}
+              >
+                <option value={ALL}>Any color type</option>
+                {options.colorTypes.map((option) => (
+                  <option key={option.key} value={option.key}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              Polish Type
+              <select
+                value={filters.polishType}
+                onChange={(event) => updateFilter("polishType", event.target.value)}
+                disabled={options.polishTypes.length === 0}
+              >
+                <option value={ALL}>Any polish type</option>
+                {options.polishTypes.map((option) => (
+                  <option key={option.key} value={option.key}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="catalog-filter-actions">
+            <button
+              type="button"
+              onClick={() => setFilters(initialFilters)}
+              disabled={!hasActiveFilters}
             >
-              <option value={ALL}>Any brand</option>
-              {options.brands.map((option) => (
-                <option key={option.key} value={option.key}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
+              Reset filters
+            </button>
+          </div>
+        </fieldset>
+      </form>
 
-          <label>
-            Color
-            <select
-              value={filters.color}
-              onChange={(event) => updateFilter("color", event.target.value)}
-            >
-              <option value={ALL}>Any color</option>
-              {options.colors.map((option) => (
-                <option key={option.key} value={option.key}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            Color Type
-            <select
-              value={filters.colorType}
-              onChange={(event) => updateFilter("colorType", event.target.value)}
-              disabled={options.colorTypes.length === 0}
-            >
-              <option value={ALL}>Any color type</option>
-              {options.colorTypes.map((option) => (
-                <option key={option.key} value={option.key}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            Polish Type
-            <select
-              value={filters.polishType}
-              onChange={(event) => updateFilter("polishType", event.target.value)}
-              disabled={options.polishTypes.length === 0}
-            >
-              <option value={ALL}>Any polish type</option>
-              {options.polishTypes.map((option) => (
-                <option key={option.key} value={option.key}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-
-        <div className="catalog-filter-actions">
-          <button
-            type="button"
-            onClick={() => setFilters(initialFilters)}
-            disabled={!hasActiveFilters}
-          >
-            Reset filters
-          </button>
-        </div>
-      </section>
-
-      <section aria-live="polite" className="catalog-results">
+      <section
+        aria-live="polite"
+        aria-labelledby="catalog-results-heading"
+        className="catalog-results"
+      >
+        <h2 id="catalog-results-heading" className="sr-only">
+          Catalog results
+        </h2>
+        <p className="catalog-results__summary" role="status">
+          Showing {filteredPolishes.length} of {polishes.length} polish
+          {polishes.length === 1 ? "" : "es"}.
+        </p>
         {filteredPolishes.length > 0 ? (
           <ul className="card-grid" aria-label="Polish cards">
             {filteredPolishes.map((polish) => (
@@ -255,7 +272,14 @@ export function CatalogClient({ polishes }: CatalogClientProps) {
           </ul>
         ) : (
           <div className="catalog-empty" role="status">
-            <p>No polishes match those filters. Reset to see the full catalog.</p>
+            <p>No polishes match those filters.</p>
+            <button
+              type="button"
+              onClick={() => setFilters(initialFilters)}
+              disabled={!hasActiveFilters}
+            >
+              Reset filters
+            </button>
           </div>
         )}
       </section>
