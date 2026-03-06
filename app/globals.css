@@ -137,6 +137,186 @@ main.site-shell {
   border: 1px solid #e2a3a8;
 }
 
+.picker-page > p {
+  max-width: 60ch;
+}
+
+.picker-grid {
+  display: grid;
+  gap: 1.2rem;
+  margin-top: 1rem;
+  grid-template-columns: minmax(280px, 560px);
+  justify-content: center;
+}
+
+.swipe-stack {
+  border: 1px solid #efdce4;
+  border-radius: 1rem;
+  padding: 0.85rem;
+  background: linear-gradient(160deg, #fff8fb, #fffcfd);
+}
+
+.swipe-stack__header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.swipe-stack__header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.swipe-stack__deck {
+  position: relative;
+  margin-top: 0.7rem;
+  min-height: 175px;
+  border-radius: 0.9rem;
+  outline: none;
+}
+
+.swipe-stack__deck:focus-visible {
+  box-shadow: 0 0 0 3px rgba(207, 79, 123, 0.22);
+}
+
+.swipe-stack__peek {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.9rem;
+  border: 1px solid #efdce4;
+  background: #fff;
+}
+
+.swipe-stack__card {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border: 1px solid #ecd5de;
+  border-radius: 0.9rem;
+  background: #fff;
+  padding: 0.62rem;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.swipe-stack__card:active {
+  cursor: grabbing;
+}
+
+.swipe-stack__empty {
+  margin-top: 0.7rem;
+  border: 1px dashed #e5c5d3;
+  border-radius: 0.9rem;
+  min-height: 175px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 1rem;
+  color: #5f5a62;
+  background: #fff;
+}
+
+.swipe-stack__controls {
+  margin-top: 0.85rem;
+  display: flex;
+  gap: 0.65rem;
+}
+
+.swipe-stack__controls button {
+  border: 1px solid #e4c3d0;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  background: #ffeaf2;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.swipe-stack__controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.picker-card {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.picker-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.picker-card p {
+  margin: 0;
+}
+
+.picker-card--compact {
+  gap: 0.2rem;
+}
+
+.picker-card--compact h3 {
+  font-size: 0.92rem;
+}
+
+.picker-card--compact p {
+  font-size: 0.8rem;
+}
+
+.picker-card__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.77rem;
+  font-weight: 700;
+  color: #a34369;
+}
+
+.picker-card__meta {
+  font-size: 0.9rem;
+  color: #4f5865;
+}
+
+.picker-polish-panel h2 {
+  margin: 0 0 0.7rem;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.picker-polish-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  justify-items: center;
+}
+
+.picker-polish-grid .swipe-stack__deck,
+.picker-polish-grid .swipe-stack__empty {
+  min-height: 120px;
+}
+
+.picker-polish-grid .swipe-stack__card {
+  padding: 0.45rem;
+}
+
+.picker-polish-grid .swipe-stack {
+  width: min(220px, 100%);
+}
+
+.picker-color {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.picker-color__swatch {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  border: 1px solid #d7ccd0;
+}
+
 @media (max-width: 680px) {
   .site-header .site-shell {
     flex-direction: column;
@@ -152,5 +332,23 @@ main.site-shell {
   .actions {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .picker-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .swipe-stack__deck,
+  .swipe-stack__empty {
+    min-height: 160px;
+  }
+
+  .picker-polish-grid .swipe-stack__deck,
+  .picker-polish-grid .swipe-stack__empty {
+    min-height: 110px;
+  }
+
+  .picker-polish-grid {
+    grid-template-columns: repeat(2, minmax(135px, 1fr));
   }
 }

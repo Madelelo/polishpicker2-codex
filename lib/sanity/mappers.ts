@@ -18,9 +18,8 @@ export type RawNailArt = {
   title?: string | null;
   nailArt?: string | null;
   difficulty?: string | null;
-  tags?: string[] | null;
-  techniques?: string[] | null;
   nailArtType?: string | null;
+  polishRequired?: string[] | null;
   needPeely?: boolean | null;
   needSponge?: boolean | null;
   needDotter?: boolean | null;
@@ -28,7 +27,6 @@ export type RawNailArt = {
   needTape?: boolean | null;
   coverImageUrl?: string | null;
   description?: string | null;
-  slug?: string | null;
 };
 
 const normalizeSlug = (slug: string | null | undefined, id: string): string => {
@@ -49,30 +47,24 @@ export const mapPolishCard = (doc: RawPolish): PolishCard => ({
 });
 
 export const mapNailArtCard = (doc: RawNailArt): NailArtCard => {
-  const tags = new Set<string>();
+  const toolsNeeded: string[] = [];
+  if (doc.needPeely) toolsNeeded.push("Peely base");
+  if (doc.needSponge) toolsNeeded.push("Sponge");
+  if (doc.needDotter) toolsNeeded.push("Dotting tool");
+  if (doc.needBrush) toolsNeeded.push("Detail brush");
+  if (doc.needTape) toolsNeeded.push("Tape");
 
-  for (const tag of [...(doc.tags ?? []), ...(doc.techniques ?? [])]) {
-    const normalized = tag?.trim();
-    if (normalized) {
-      tags.add(normalized);
-    }
-  }
-
-  if (doc.nailArtType?.trim()) {
-    tags.add(doc.nailArtType.trim());
-  }
-  if (doc.needPeely) tags.add("needs peely");
-  if (doc.needSponge) tags.add("needs sponge");
-  if (doc.needDotter) tags.add("needs dotter");
-  if (doc.needBrush) tags.add("needs brush");
-  if (doc.needTape) tags.add("needs tape");
+  const polishRequired = (doc.polishRequired ?? [])
+    .map((value) => value?.trim())
+    .filter((value): value is string => Boolean(value));
 
   return {
     id: doc._id,
     title: doc.title?.trim() || doc.nailArt?.trim() || "Untitled nail art",
-    slug: normalizeSlug(doc.slug, doc._id),
     difficulty: doc.difficulty?.trim() || "Unknown",
-    tags: [...tags],
+    nailArtType: doc.nailArtType?.trim() || null,
+    toolsNeeded,
+    polishRequired,
     coverImageUrl: doc.coverImageUrl?.trim() || null,
     description: doc.description?.trim() || ""
   };

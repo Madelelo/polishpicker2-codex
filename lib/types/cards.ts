@@ -11,9 +11,10 @@ export type PolishCard = {
 export type NailArtCard = {
   id: string;
   title: string;
-  slug: string;
   difficulty: string;
-  tags: string[];
+  nailArtType: string | null;
+  toolsNeeded: string[];
+  polishRequired: string[];
   coverImageUrl: string | null;
   description: string;
 };
