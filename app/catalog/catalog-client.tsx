@@ -229,6 +229,10 @@ export function CatalogClient({ polishes }: CatalogClientProps) {
         <h2 id="catalog-results-heading" className="sr-only">
           Catalog results
         </h2>
+        <p className="catalog-results__summary" role="status">
+          Showing {filteredPolishes.length} of {polishes.length} polish
+          {polishes.length === 1 ? "" : "es"}.
+        </p>
         {filteredPolishes.length > 0 ? (
           <ul className="card-grid" aria-label="Polish cards">
             {filteredPolishes.map((polish) => (
@@ -268,7 +272,14 @@ export function CatalogClient({ polishes }: CatalogClientProps) {
           </ul>
         ) : (
           <div className="catalog-empty" role="status">
-            <p>No polishes match those filters. Reset to see the full catalog.</p>
+            <p>No polishes match those filters.</p>
+            <button
+              type="button"
+              onClick={() => setFilters(initialFilters)}
+              disabled={!hasActiveFilters}
+            >
+              Reset filters
+            </button>
           </div>
         )}
       </section>

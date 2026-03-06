@@ -397,6 +397,8 @@ main.site-shell {
 
 .catalog-results__summary {
   margin: 0.25rem 0 0;
+  color: var(--ink-700);
+  font-size: 0.95rem;
 }
 
 .catalog-card {
@@ -473,6 +475,23 @@ main.site-shell {
   background: #fff;
 }
 
+.catalog-empty p {
+  margin: 0;
+}
+
+.catalog-empty a,
+.catalog-empty button {
+  margin-top: 0.55rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  background: linear-gradient(180deg, #fff2f8, #ffe8f2);
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink-900);
+  min-height: 44px;
+}
+
 .picker-card--compact p {
   font-size: 0.8rem;
 }
@@ -543,6 +562,66 @@ main.site-shell {
   border: 0;
 }
 
+.loading-panel {
+  margin-top: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  padding: 0.9rem;
+  background: #fffcfb;
+}
+
+.loading-line {
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(220, 190, 205, 0.35),
+    rgba(220, 190, 205, 0.7),
+    rgba(220, 190, 205, 0.35)
+  );
+  background-size: 240px 100%;
+  animation: shimmer 1.35s linear infinite;
+  width: 100%;
+  max-width: 420px;
+}
+
+.loading-line + .loading-line {
+  margin-top: 0.5rem;
+}
+
+.loading-line--title {
+  max-width: 240px;
+}
+
+.loading-grid {
+  margin-top: 0.9rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.75rem;
+}
+
+.loading-grid--picker {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.loading-card {
+  min-height: 90px;
+  border-radius: 0.8rem;
+  border: 1px solid var(--line);
+  background: linear-gradient(
+    100deg,
+    rgba(247, 216, 229, 0.3),
+    rgba(244, 232, 206, 0.45),
+    rgba(247, 216, 229, 0.3)
+  );
+  background-size: 280px 100%;
+  animation: shimmer 1.35s linear infinite;
+}
+
+.loading-card--tall {
+  min-height: 135px;
+}
+
 @keyframes page-enter {
   from {
     opacity: 0;
@@ -551,6 +630,15 @@ main.site-shell {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -220px 0;
+  }
+  to {
+    background-position: 220px 0;
   }
 }
 
