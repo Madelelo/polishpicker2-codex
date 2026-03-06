@@ -127,6 +127,9 @@ main.site-shell {
   background: linear-gradient(180deg, #fff4f8, #ffeef5);
   border-radius: 999px;
   padding: 0.55rem 1rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   font-weight: 700;
   color: #563242;
 }
@@ -271,6 +274,7 @@ main.site-shell {
   border: 1px solid var(--line-strong);
   border-radius: 999px;
   padding: 0.48rem 0.9rem;
+  min-height: 44px;
   background: linear-gradient(180deg, #fff2f8, #ffe9f2);
   font-weight: 700;
   color: var(--ink-900);
@@ -338,6 +342,7 @@ main.site-shell {
   border: 1px solid #e7c8d5;
   border-radius: 0.6rem;
   padding: 0.5rem 0.55rem;
+  min-height: 44px;
   background: #fff;
   font: inherit;
   color: var(--ink-900);
@@ -521,25 +526,48 @@ main.site-shell {
   }
 
   .actions {
-    flex-direction: column;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 1fr;
   }
 
   .picker-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .catalog-filter-grid {
     grid-template-columns: 1fr;
   }
 
   .swipe-stack__deck,
   .swipe-stack__empty {
-    min-height: 160px;
+    min-height: 190px;
+  }
+
+  .swipe-stack__controls {
+    gap: 0.55rem;
+  }
+
+  .swipe-stack__controls button {
+    flex: 1;
   }
 
   .picker-polish-grid .swipe-stack__deck,
   .picker-polish-grid .swipe-stack__empty {
-    min-height: 110px;
+    min-height: 120px;
   }
 
   .picker-polish-grid {
-    grid-template-columns: repeat(2, minmax(135px, 1fr));
+    grid-template-columns: repeat(2, minmax(145px, 1fr));
+    gap: 0.65rem;
+  }
+
+  .picker-polish-grid .swipe-stack {
+    width: 100%;
   }
 }
